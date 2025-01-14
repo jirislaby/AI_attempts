@@ -21,5 +21,5 @@ find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(SQLITE3 REQUIRED sqlite3)
 
-add_executable(mydlib dlib.cpp sqlconn.cpp sqlconn.h sqlite.h)
+add_executable(mydlib embed.cpp embed.h dlib.cpp sqlconn.cpp sqlconn.h sqlite.h)
 target_link_libraries(mydlib dlib::dlib ${SQLITE3_LIBRARIES})

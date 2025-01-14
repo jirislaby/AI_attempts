@@ -32,6 +32,7 @@ int SQLConn::prepDB()
 	int ret;
 
 	ret = sqlite3_prepare_v2(sqlHolder,
+ #if 0
 				 "SELECT map.user, map.file, sum(map.count) AS count, user.email, "
 				 "dir.dir || '/' || file.file AS path "
 				 "FROM user_file_map AS map "
@@ -40,6 +41,17 @@ int SQLConn::prepDB()
 				 "LEFT JOIN dir ON file.dir=dir.id "
 				 "GROUP BY map.user, map.file "
 				 "ORDER BY random();",
+ #endif
+				 "SELECT map.user, map.file, sum(map.count) AS count, "
+					 "substr(user.email, 0, instr(user.email,'@')) AS email2, "
+					 "dir.dir || '/' || file.file AS path "
+				 "FROM user_file_map AS map "
+				 "LEFT JOIN user ON map.user=user.id "
+				 "LEFT JOIN file ON map.file=file.id "
+				 "LEFT JOIN dir ON file.dir=dir.id "
+				 "WHERE dir.dir = 'drivers/tty' AND email2 != 'tiwai' AND email2 != 'jslaby' "
+				 "GROUP BY email2, map.file "
+				 "ORDER BY 2,3,1;",
 				 -1, &stmt, NULL);
 	selMap.reset(stmt);
 	if (ret != SQLITE_OK) {

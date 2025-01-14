@@ -11,9 +11,11 @@ project('dlib', 'cpp',
 add_project_arguments('-ggdb', language : 'c')
 add_project_arguments('-ggdb', language : 'cpp')
 
-deps = dependency('dlib')
+deps = []
+deps += dependency('dlib')
+deps += dependency('sqlite3')
 #deps += meson.get_compiler('cpp').find_library('LLVM')
 
 prj_name = meson.project_name()
-executable(prj_name, prj_name + '.cpp', dependencies: deps)
-
+executable(prj_name, [ prj_name + '.cpp', 'embed.cpp', 'sqlconn.cpp', 'sqlconn.h', 'sqlite.h' ], dependencies: deps)
+executable('pokus', 'pokus.cpp', dependencies: dependency('fasttext'))
