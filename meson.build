@@ -18,4 +18,3 @@ deps += dependency('sqlite3')
 
 prj_name = meson.project_name()
 executable(prj_name, [ prj_name + '.cpp', 'embed.cpp', 'sqlconn.cpp', 'sqlconn.h', 'sqlite.h' ], dependencies: deps)
-executable('pokus', 'pokus.cpp', dependencies: dependency('fasttext'))
